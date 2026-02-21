@@ -88,7 +88,7 @@ export default function InterviewPage() {
         .order('created_at', { ascending: true });
 
       if (messagesData && messagesData.length > 0) {
-        setMessages(messagesData);
+        setMessages(messagesData.map(m => ({ ...m, role: m.role as Message['role'] })));
       } else {
         // Start the interview with AI greeting
         await startInterview(data);
@@ -140,7 +140,7 @@ export default function InterviewPage() {
         .single();
 
       if (savedMessage) {
-        setMessages([savedMessage]);
+        setMessages([{ ...savedMessage, role: savedMessage.role as Message['role'] }]);
       }
     } catch (error) {
       console.error('Error starting interview:', error);
@@ -228,7 +228,7 @@ export default function InterviewPage() {
         setMessages((prev) => [
           ...prev.filter((m) => m.id !== tempUserMessage.id),
           { ...tempUserMessage, id: `user-${Date.now()}` },
-          savedMessage,
+          { ...savedMessage, role: savedMessage.role as Message['role'] },
         ]);
       }
     } catch (error) {

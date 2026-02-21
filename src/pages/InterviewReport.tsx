@@ -67,7 +67,11 @@ export default function InterviewReport() {
         return;
       }
 
-      setInterview(data);
+      setInterview({
+        ...data,
+        skill_ratings: data.skill_ratings as Record<string, number> | null,
+        improvement_plan: data.improvement_plan as string[] | null,
+      });
       setLoading(false);
     };
 
